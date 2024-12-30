@@ -1,2 +1,2 @@
-const link="http://localhost:8080"
+const link="https://api.brorooms.com"
 export default link;
