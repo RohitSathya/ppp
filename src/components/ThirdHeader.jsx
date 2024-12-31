@@ -33,11 +33,7 @@ const ThirdHeader = () => {
 </a>
 
   {/* Dropdown */}
-  <div
-    className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 p-4 w-48 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300"
-  >
-   
-  </div>
+
 </div>
 
 <div
