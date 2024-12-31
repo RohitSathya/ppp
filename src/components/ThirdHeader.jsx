@@ -24,13 +24,14 @@ const ThirdHeader = () => {
         <nav className="hidden md:flex space-x-8">
           {/* Demo Dropdown */}
           <div className="relative group">
-  <a
-    onClick={()=>nav('/')}
-    className="text-black hover:text-orange-500 font-medium flex items-center"
-  >
-    HOME
-    <span className="ml-1 text-orange-500"></span>
-  </a>
+ <a
+  onClick={() => nav('/')}
+  className="text-black hover:text-orange-500 font-medium flex items-center cursor-pointer"
+>
+  HOME
+  <span className="ml-1 text-orange-500"></span>
+</a>
+
   {/* Dropdown */}
   <div
     className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 p-4 w-48 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300"
