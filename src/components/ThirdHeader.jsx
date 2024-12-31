@@ -25,11 +25,11 @@ const ThirdHeader = () => {
           {/* Demo Dropdown */}
           <div className="relative group">
   <a
-    href="#"
+    onClick={()=>nav('/')}
     className="text-black hover:text-orange-500 font-medium flex items-center"
   >
-    DEMO
-    <span className="ml-1 text-orange-500">▼</span>
+    HOME
+    <span className="ml-1 text-orange-500"></span>
   </a>
   {/* Dropdown */}
   <div
