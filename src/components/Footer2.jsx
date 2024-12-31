@@ -10,6 +10,7 @@ const Footer2 = () => {
           &copy; 2024 – BEYOT REAL ESTATES DESIGNED BY
           <a
             // Replace with the actual link
+             href="https://wa.me/7052923068"
             target="_blank"
             rel="noopener noreferrer"
             className="text-orange-500 ml-1 hover:underline"
@@ -24,7 +25,7 @@ const Footer2 = () => {
         {/* WhatsApp Section */}
         <div className="flex items-center mt-4 lg:mt-0">
           <a
-            href="https://wa.me/7052923068" // WhatsApp link with the number
+            // WhatsApp link with the number
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center bg-green-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-600 transition duration-300 space-x-2"
