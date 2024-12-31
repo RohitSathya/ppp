@@ -59,6 +59,7 @@ const SecondHeader = () => {
         localStorage.setItem("user", JSON.stringify(data.user));
         toast.success(`Welcome, ${data.user.username}!`);
         setShowModal(false);
+        windows.location.reload()
   
         // Prompt for mobile number if missing
         if (!data.user.mobile) {
@@ -100,6 +101,7 @@ const SecondHeader = () => {
         localStorage.setItem("user", JSON.stringify(updatedUser));
         toast.success("Mobile number updated successfully!");
         setShowMobilePrompt(false);
+         windows.location.reload()
       } else {
         toast.error(data.message || "Failed to update mobile number.");
       }
@@ -127,6 +129,7 @@ const SecondHeader = () => {
       localStorage.setItem("user", JSON.stringify(data.user));
       toast.success(`Welcome back, ${data.user.username}!`);
       setShowModal(false);
+       windows.location.reload()
       if (!data.user.mobile) {
         setShowMobilePrompt(true);
       }
@@ -155,6 +158,7 @@ const SecondHeader = () => {
       localStorage.setItem("user", JSON.stringify(newUser));
       toast.success(`Welcome, ${username}!`);
       setShowModal(false);
+       windows.location.reload()
     } else {
       toast.error(data.message || "Registration failed.");
     }
