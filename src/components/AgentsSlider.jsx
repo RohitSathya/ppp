@@ -31,26 +31,27 @@ const AgentsSlider = () => {
     fetchAgents();
   }, []);
 
+  // Dynamic slider settings
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: agents.length > 1, // Only enable infinite if more than 1 agent
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: Math.min(agents.length, 4), // Show up to 4 slides, depending on agents count
     slidesToScroll: 1,
-    arrows: true,
-    autoplay: true,
+    arrows: agents.length > 1, // Show arrows only if more than 1 agent
+    autoplay: agents.length > 1, // Enable autoplay only if more than 1 agent
     autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: Math.min(agents.length, 3),
         },
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: Math.min(agents.length, 2),
         },
       },
       {
@@ -99,55 +100,59 @@ const AgentsSlider = () => {
 
       {/* Agents Slider */}
       <div className="px-8">
-        <Slider {...settings}>
-          {agents.map((agent, index) => (
-            <div key={index} className="px-4">
-              <div className="bg-white shadow-lg hover:shadow-xl rounded-lg">
-                {/* Agent Image */}
-                <img
-                  src={agent.image}
-                  alt={agent.name}
-                  className="w-40 h-40 mx-auto mt-4 rounded-full object-cover"
-                />
-                {/* Agent Details */}
-                <div className="mt-4 bg-black text-white rounded-b-lg py-4">
-                  <h3 className="text-lg font-bold">{agent.name}</h3>
-                  {/* Social Links */}
-                  <div className="flex justify-center space-x-4 mt-4">
-                    <a
-                      href={agent.social.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-orange-500 hover:text-orange-600"
-                    >
-                      <Facebook size={20} />
-                    </a>
-                    <a
-                      href={agent.social.twitter}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-orange-500 hover:text-orange-600"
-                    >
-                      <Twitter size={20} />
-                    </a>
-                    <a
-                      href={agent.social.email}
-                      className="text-orange-500 hover:text-orange-600"
-                    >
-                      <Mail size={20} />
-                    </a>
-                    <a
-                      href={agent.social.phone}
-                      className="text-orange-500 hover:text-orange-600"
-                    >
-                      <Phone size={20} />
-                    </a>
+        {agents.length > 0 ? (
+          <Slider {...settings}>
+            {agents.map((agent, index) => (
+              <div key={index} className="px-4">
+                <div className="bg-white shadow-lg hover:shadow-xl rounded-lg">
+                  {/* Agent Image */}
+                  <img
+                    src={agent.image}
+                    alt={agent.name}
+                    className="w-40 h-40 mx-auto mt-4 rounded-full object-cover"
+                  />
+                  {/* Agent Details */}
+                  <div className="mt-4 bg-black text-white rounded-b-lg py-4">
+                    <h3 className="text-lg font-bold">{agent.name}</h3>
+                    {/* Social Links */}
+                    <div className="flex justify-center space-x-4 mt-4">
+                      <a
+                        href={agent.social.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-orange-500 hover:text-orange-600"
+                      >
+                        <Facebook size={20} />
+                      </a>
+                      <a
+                        href={agent.social.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-orange-500 hover:text-orange-600"
+                      >
+                        <Twitter size={20} />
+                      </a>
+                      <a
+                        href={agent.social.email}
+                        className="text-orange-500 hover:text-orange-600"
+                      >
+                        <Mail size={20} />
+                      </a>
+                      <a
+                        href={agent.social.phone}
+                        className="text-orange-500 hover:text-orange-600"
+                      >
+                        <Phone size={20} />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        ) : (
+          <p className="text-gray-500">No agents available at the moment.</p>
+        )}
       </div>
     </div>
   );
