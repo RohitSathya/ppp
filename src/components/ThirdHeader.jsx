@@ -36,72 +36,7 @@ const ThirdHeader = () => {
   <div
     className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 p-4 w-48 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300"
   >
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home One
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home Two
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home Three
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home Four
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home Five
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home Six
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home Seven
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home Map V1
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Home Map V2
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Demo Single Property Landing
-    </a>
-    <a
-      href="#"
-      className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-    >
-      Demo Single Agent
-    </a>
+   
   </div>
 </div>
 
