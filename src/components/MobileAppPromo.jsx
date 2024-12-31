@@ -49,7 +49,7 @@ const MobileAppPromo = () => {
         <div className="relative mt-10 lg:mt-0 flex items-center space-x-10 lg:space-x-20">
           {/* Phone 1 */}
           <img
-            src="https://beyot.g5plus.net/main/wp-content/uploads/2016/12/iphone-white.png"
+            src="https://media-hosting.imagekit.io//d17aa773a5074250/Untitled%20design%20(8).png?Expires=1735837008&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=NN3Qs-5jrJRGXNKH1VZWBlTF59lqpU-BW~M5vXarlLJsQWkPKBgZ9dRFTo8cO9IavT-nPc7rG4Ncqow94uBxwQzHiLEA~vRN9j73kl-WmEuGEDUAhserTzEoR9e3gBhFNuC2R1riThuj0kzCekN8FN09gq73ZriR-KzDwJboVwtCYC33BfEywgg5Y507kpB-oINwtrdezAAKWKGDzBvpF4Zb4ueKISE34uRaEH74sQgfEytj9NxFNeNLkT9MexlQXMEahxkshiQ5Z-t0~-S0DeYzllV-rwnxO2Cp9uTmbGyzZFZYhV17D8VZfVUHFNW4QDPHVA6XnG9usi2Ps-nH3Q__"
             alt="Phone 1"
             className="relative z-10 transform translate-y-8 w-[140px] lg:w-[200px] shadow-xl transition-transform duration-500 hover:scale-105"
           />
