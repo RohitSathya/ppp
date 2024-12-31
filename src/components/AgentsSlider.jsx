@@ -31,31 +31,31 @@ const AgentsSlider = () => {
     fetchAgents();
   }, []);
 
-  // Dynamic slider settings
+  // Slider settings
   const settings = {
     dots: false,
-    infinite: agents.length > 1, // Only enable infinite if more than 1 agent
+    infinite: agents.length > 1,
     speed: 500,
-    slidesToShow: Math.min(agents.length, 4), // Show up to 4 slides, depending on agents count
+    slidesToShow: Math.min(agents.length, 4), // Up to 4 agents per view
     slidesToScroll: 1,
-    arrows: agents.length > 1, // Show arrows only if more than 1 agent
-    autoplay: agents.length > 1, // Enable autoplay only if more than 1 agent
+    arrows: agents.length > 1,
+    autoplay: agents.length > 1,
     autoplaySpeed: 3000,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1024, // Tablet view
         settings: {
           slidesToShow: Math.min(agents.length, 3),
         },
       },
       {
-        breakpoint: 768,
+        breakpoint: 768, // Mobile view
         settings: {
           slidesToShow: Math.min(agents.length, 2),
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 480, // Smaller screens
         settings: {
           slidesToShow: 1,
         },
@@ -65,7 +65,7 @@ const AgentsSlider = () => {
 
   return (
     <div className="py-16 bg-white text-center relative">
-      {/* Custom styles for slider arrows */}
+      {/* Custom styles for slider arrows and card sizing */}
       <style>{`
         .slick-prev, .slick-next {
           z-index: 10;
@@ -75,10 +75,10 @@ const AgentsSlider = () => {
           border-radius: 50%;
         }
         .slick-prev {
-          left: 25px;
+          left: -15px;
         }
         .slick-next {
-          right: 25px;
+          right: -15px;
         }
         .slick-prev:hover, .slick-next:hover {
           background-color: rgb(249 115 22);
@@ -86,6 +86,7 @@ const AgentsSlider = () => {
         .slick-prev:before, .slick-next:before {
           font-size: 24px;
           line-height: 1;
+          color: white;
         }
       `}</style>
 
@@ -99,21 +100,21 @@ const AgentsSlider = () => {
       </div>
 
       {/* Agents Slider */}
-      <div className="px-8">
+      <div className="px-4 md:px-8 lg:px-12">
         {agents.length > 0 ? (
           <Slider {...settings}>
             {agents.map((agent, index) => (
-              <div key={index} className="px-4">
-                <div className="bg-white shadow-lg hover:shadow-xl rounded-lg">
+              <div key={index} className="px-2">
+                <div className="bg-white shadow-md hover:shadow-lg rounded-lg">
                   {/* Agent Image */}
                   <img
                     src={agent.image}
                     alt={agent.name}
-                    className="w-40 h-40 mx-auto mt-4 rounded-full object-cover"
+                    className="w-24 h-24 mx-auto mt-4 rounded-full object-cover"
                   />
                   {/* Agent Details */}
                   <div className="mt-4 bg-black text-white rounded-b-lg py-4">
-                    <h3 className="text-lg font-bold">{agent.name}</h3>
+                    <h3 className="text-sm md:text-base font-bold">{agent.name}</h3>
                     {/* Social Links */}
                     <div className="flex justify-center space-x-4 mt-4">
                       <a
