@@ -8,8 +8,8 @@ const ThirdHeader = () => {
   const nav=useNavigate()
 
   return (
-    <header className="bg-white shadow-md relative">
-      <div className="flex justify-between items-center px-6 py-4">
+    <header className="bg-white shadow-md relative z-50">
+      <div className="flex justify-between items-center px-6 py-4 relative z-50">
         {/* Left Section: Logo */}
         <div className="flex items-center">
           <img
