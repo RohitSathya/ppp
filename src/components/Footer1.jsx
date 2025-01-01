@@ -1,9 +1,14 @@
 import React from "react";
-import { FaFacebookF, FaTwitter, FaBehance, FaInstagram } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaBehance,
+  FaInstagram,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 import { FiPhoneCall } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { RiEarthFill } from "react-icons/ri";
-import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Footer1 = () => {
   return (
@@ -17,7 +22,8 @@ const Footer1 = () => {
             className="w-36 mb-4"
           />
           <p className="text-gray-400 mb-6">
-            Pellentesque habitant morbi tristique senetus et netus et malesuada fames ac turpis. tortor quam, feugiat vitae.
+            Pellentesque habitant morbi tristique senetus et netus et malesuada
+            fames ac turpis. tortor quam, feugiat vitae.
           </p>
           <div className="flex space-x-4">
             <a
@@ -53,33 +59,37 @@ const Footer1 = () => {
           <ul className="space-y-3 text-gray-400">
             <li className="flex items-center space-x-2">
               <FaMapMarkerAlt className="text-orange-500" />
-              <span>G5 Technology JSC, Room 1201, Tecco Tower C</span>
+              <span>Chandigarh</span>
             </li>
-            <li>Apartment, Quang Trung Ward, Vinh City, Nghe An Province, VietNam (46000)</li>
             <li className="flex items-center space-x-2">
               <FiPhoneCall className="text-orange-500" />
-              <span>(+84) 388-969-888</span>
+              <span>+91 1234567890</span>
             </li>
             <li className="flex items-center space-x-2">
               <HiOutlineMail className="text-orange-500" />
-              <span>g5plus@outlook.com</span>
+              <span>hi@brorooms.com</span>
             </li>
             <li className="flex items-center space-x-2">
               <RiEarthFill className="text-orange-500" />
-              <span>www.g5plus.net</span>
+              <span>www.brorooms.com</span>
             </li>
           </ul>
         </div>
 
         {/* Right Section */}
         <div>
-          <h3 className="text-lg font-bold mb-4">Property Cities</h3>
+          <h3 className="text-lg font-bold mb-4">Property Locations</h3>
           <ul className="grid grid-cols-2 gap-2 text-gray-400">
-            <li className="hover:text-orange-500 cursor-pointer">Austin</li>
-            <li className="hover:text-orange-500 cursor-pointer">Los Angeles</li>
-            <li className="hover:text-orange-500 cursor-pointer">Atlanta</li>
-            <li className="hover:text-orange-500 cursor-pointer">San Diego</li>
-            <li className="hover:text-orange-500 cursor-pointer">San Francisco</li>
+            <li className="hover:text-orange-500 cursor-pointer">Chandigarh</li>
+            <li className="hover:text-orange-500 cursor-pointer">Mohali</li>
+            <li className="hover:text-orange-500 cursor-pointer">Kharar</li>
+            <li className="hover:text-orange-500 cursor-pointer">Zirakpur</li>
+            <li className="hover:text-orange-500 cursor-pointer">Sahibzada Ajit Singh Nagar</li>
+            <li className="hover:text-orange-500 cursor-pointer">Chandigarh University, Mohali</li>
+            <li className="hover:text-orange-500 cursor-pointer">Chandigarh University South Campus, Mohali</li>
+            <li className="hover:text-orange-500 cursor-pointer">Chitkara University, Chandigarh</li>
+            <li className="hover:text-orange-500 cursor-pointer">Panjab University, Chandigarh</li>
+            <li className="hover:text-orange-500 cursor-pointer">Lovely Professional University, Phagwara</li>
           </ul>
         </div>
       </div>
