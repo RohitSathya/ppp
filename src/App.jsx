@@ -38,7 +38,7 @@ function App() {
           element={
             <div>
               <FirstHeader />
-              <SecondHeader />
+{/*               <SecondHeader /> */}
               <ThirdHeader />
               {/* <SearchBox /> */}
               <PropertySlider filters={filters} setFilters={setFilters} />
