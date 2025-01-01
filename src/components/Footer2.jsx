@@ -7,7 +7,7 @@ const Footer2 = () => {
       <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center px-6">
         {/* Left Section */}
         <div className="text-center lg:text-left mb-4 lg:mb-0">
-          &copy; 2024 – BEYOT REAL ESTATES DESIGNED BY
+          &copy; 2024 – BROROOMS DESIGNED BY
           <a
             // Replace with the actual link
              href="https://wa.me/7052923068"
