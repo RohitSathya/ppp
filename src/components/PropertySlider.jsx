@@ -99,10 +99,10 @@ const cities = [
                 onChange={handleFilterChange}
                 className="w-full pl-10 pr-4 py-3 mt-1 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               >
-                <option value="">All Types</option>
-                <option value="Villa">Villa</option>
-                <option value="Store">Store</option>
-                <option value="Apartment">Apartment</option>
+                <option value="">KOTHI</option>
+                <option value="Villa">SHARING PG</option>
+                <option value="Store">SINGLE ROOMS</option>
+                <option value="Apartment">PG</option>
               </select>
             </div>
 
