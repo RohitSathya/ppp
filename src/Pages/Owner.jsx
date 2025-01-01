@@ -35,6 +35,25 @@ const Owner = () => {
     main: null,
     carousel: [],
   });
+   const cities = [
+    "Chandigarh",
+    "Mohali",
+    "Kharar",
+    "Zirakpur",
+    "Sahibzada Ajit Singh Nagar",
+    "Chandigarh University, Mohali",
+    "Chandigarh University South Campus, Mohali",
+    "Chitkara University, Chandigarh",
+    "Panjab University, Chandigarh",
+    "Lovely Professional University, Phagwara",
+  ];
+
+  const propertyTypes = [
+    "PG",
+    "Single Rooms",
+    "Sharing PG",
+    "Kothi",
+  ];
 
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -144,15 +163,25 @@ const Owner = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    console.log(e)
+const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "image") {
       setPreviewImages((prev) => ({ ...prev, main: value }));
     }
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      if (name.includes(".")) {
+        const [parent, child] = name.split(".");
+        return {
+          ...prev,
+          [parent]: {
+            ...prev[parent],
+            [child]: value,
+          },
+        };
+      }
+      return { ...prev, [name]: value };
+    });
   };
-
   const handleCarouselImagesChange = (e) => {
     const urls = e.target.value.split(",").map((url) => url.trim());
     setFormData((prev) => ({ ...prev, carouselImages: urls }));
@@ -443,18 +472,22 @@ const Owner = () => {
               />
             </div>
             {/* City */}
-            <div className="space-y-2">
-              <Label>City</Label>
-              <Input
-              type="text"
-              name="city"
-                
-                value={formData.city}
-                onChange={handleInputChange}
-                placeholder="Mention city in full form"
-                
-              />
-            </div>
+           <div className="space-y-2">
+                  <Label>City</Label>
+                  <select
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  >
+                    <option value="">Select City</option>
+                    {cities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                   <div className="space-y-2">
                     <Label>Title</Label>
                     <Input
@@ -490,16 +523,23 @@ const Owner = () => {
                     />
                   </div>
   
-                  <div className="space-y-2">
-                    <Label>Type</Label>
-                    <Input
-                      name="type"
-                      value={formData.type}
-                      onChange={handleInputChange}
-                      placeholder="Property Type"
-                      required
-                    />
-                  </div>
+                    <div className="space-y-2">
+                  <Label>Type</Label>
+                  <select
+                    name="type"
+                    value={formData.type}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    required
+                  >
+                    <option value="">Select Type</option>
+                    {propertyTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </div>
   
                   <div className="space-y-2">
                     <Label>Agent Name</Label>
