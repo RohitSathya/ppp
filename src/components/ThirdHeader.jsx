@@ -1,238 +1,137 @@
-import React, { useState, useEffect } from "react";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaGoogle,
-  FaUser,
-} from "react-icons/fa";
-import { MdKeyboardArrowDown, MdClose } from "react-icons/md";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { signInWithGoogle } from "./firebase";
-import link from "../link";
+import React, { useState } from "react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const ThirdHeader = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [isLoginView, setIsLoginView] = useState(true);
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+const ModernHeader = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleModal = () => setShowModal(!showModal);
-
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await signInWithGoogle();
-      if (!result.success) {
-        toast.error("Google login failed.");
-        return;
-      }
-
-      const response = await fetch(`${link}/api/auth/google-login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(result.user),
-      });
-
-      const data = await response.json();
-      if (response.ok && data.success) {
-        setUser(data.user);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        toast.success(`Welcome, ${data.user.username}!`);
-        setShowModal(false);
-      } else {
-        toast.error(data.message || "Failed to save user data.");
-      }
-    } catch (error) {
-      console.error("Error during Google login:", error);
-      toast.error("An unexpected error occurred.");
-    }
-  };
-
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-
-    const response = await fetch(`${link}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      toast.success(`Welcome back, ${data.user.username}!`);
-      setShowModal(false);
-    } else {
-      toast.error(data.message || "Login failed.");
-    }
-  };
-
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    const username = event.target.username.value;
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-
-    const response = await fetch(`${link}/api/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      const newUser = { username, email };
-      setUser(newUser);
-      localStorage.setItem("user", JSON.stringify(newUser));
-      toast.success(`Welcome, ${username}!`);
-      setShowModal(false);
-    } else {
-      toast.error(data.message || "Registration failed.");
-    }
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    toast.info("You have been logged out.");
-  };
+  const accountMenuItems = [
+    { label: "Login", action: () => navigate("/login") },
+    { label: "Register", action: () => navigate("/register") },
+    { label: "My Profile", action: () => navigate("/profile") },
+    { label: "My Properties", action: () => navigate("/my-properties") },
+    { label: "My Favorites", action: () => navigate("/favouriteproperty") },
+  ];
 
   return (
-    <div className="bg-black text-white w-full flex justify-between items-center px-6 py-2 text-sm shadow-md relative z-50">
-      <ToastContainer />
-
-      <div className="flex items-center space-x-4">
-        <a href="#" className="text-gray-300 hover:text-white transition">
-          <FaFacebookF />
-        </a>
-        <a href="#" className="text-gray-300 hover:text-white transition">
-          <FaTwitter />
-        </a>
-        <a href="#" className="text-gray-300 hover:text-white transition">
-          <FaGoogle />
-        </a>
-      </div>
-
-      <div className="flex items-center space-x-6">
-        {user ? (
-          <div className="flex items-center space-x-4">
-            <span className="text-orange-500 font-semibold">
-              Welcome, {user.username}!
-            </span>
-            <button
-              onClick={handleLogout}
-              className="text-gray-300 hover:text-white transition"
-            >
-              Logout
-            </button>
+    <header className="bg-white shadow-lg fixed w-full top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          {/* Logo */}
+          <div className="flex-shrink-0 cursor-pointer" onClick={() => navigate('/')}>
+            <img
+              src="https://media-hosting.imagekit.io//f537332828db4150/Untitled%20design%20(6).png"
+              alt="Logo"
+              className="h-12 w-auto"
+            />
           </div>
-        ) : (
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <button 
+              onClick={() => navigate('/')}
+              className="text-gray-700 hover:text-orange-500 font-medium transition-colors"
+            >
+              HOME
+            </button>
+            <button 
+              onClick={() => navigate('/properties')}
+              className="text-gray-700 hover:text-orange-500 font-medium transition-colors"
+            >
+              PROPERTIES
+            </button>
+            
+            {/* Account Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center text-gray-700 hover:text-orange-500 font-medium transition-colors">
+                MY ACCOUNT
+                <ChevronDown className="ml-1 h-4 w-4" />
+              </button>
+              
+              <div className="absolute right-0 w-48 mt-2 bg-white rounded-lg shadow-lg py-2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+                {accountMenuItems.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={item.action}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </nav>
+
+          {/* Phone Number (Desktop) */}
+          <div className="hidden md:flex items-center">
+            <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full flex items-center space-x-2">
+              <Phone className="h-4 w-4" />
+              <span className="font-bold">19854</span>
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
           <button
-            onClick={toggleModal}
-            className="flex items-center text-gray-300 hover:text-white transition"
+            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <FaUser className="text-orange-500 mr-2" />
-            <span>Login or Register</span>
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
-        )}
+        </div>
       </div>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white w-full max-w-md rounded-lg shadow-lg relative">
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t">
+          <div className="px-4 py-2 space-y-1">
             <button
-              onClick={toggleModal}
-              className="absolute top-2 right-2 text-gray-400 hover:text-black transition"
+              onClick={() => {
+                navigate('/');
+                setIsMobileMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg"
             >
-              <MdClose size={24} />
+              HOME
             </button>
-
-            <div className="flex justify-center space-x-4 border-b p-4">
-              <button
-                onClick={() => setIsLoginView(true)}
-                className={`text-lg font-semibold ${
-                  isLoginView
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500"
-                }`}
-              >
-                Log in
-              </button>
-              <button
-                onClick={() => setIsLoginView(false)}
-                className={`text-lg font-semibold ${
-                  !isLoginView
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500"
-                }`}
-              >
-                Register
-              </button>
+            <button
+              onClick={() => {
+                navigate('/properties');
+                setIsMobileMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg"
+            >
+              PROPERTIES
+            </button>
+            
+            {/* Mobile Account Menu */}
+            <div className="border-t border-gray-200 pt-2">
+              {accountMenuItems.map((item, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    item.action();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg"
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
 
-            <div className="p-6">
-              <button
-                onClick={handleGoogleLogin}
-                className="w-full bg-blue-500 text-white py-2 rounded-lg mb-4"
-              >
-                Continue with Google
-              </button>
-              {isLoginView ? (
-                <form className="space-y-4" onSubmit={handleLogin}>
-                  <input
-                    name="email"
-                    placeholder="Email"
-                    className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
-                  />
-                  <input
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                    className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition"
-                  >
-                    Login
-                  </button>
-                </form>
-              ) : (
-                <form className="space-y-4" onSubmit={handleRegister}>
-                  <input
-                    name="username"
-                    placeholder="Username"
-                    className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
-                  />
-                  <input
-                    name="email"
-                    placeholder="Email"
-                    className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
-                  />
-                  <input
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                    className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition"
-                  >
-                    Register
-                  </button>
-                </form>
-              )}
+            {/* Mobile Phone Number */}
+            <div className="mt-4 px-4">
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-full flex items-center justify-center space-x-2">
+                <Phone className="h-4 w-4" />
+                <span className="font-bold">19854</span>
+              </div>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </header>
   );
 };
 
-export default ThirdHeader;
+export default ModernHeader;
