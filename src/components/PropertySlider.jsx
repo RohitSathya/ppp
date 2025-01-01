@@ -67,9 +67,9 @@ const cities = [
       <Card className="relative z-10 w-full max-w-xl bg-white/95 backdrop-blur-md shadow-2xl border-0">
         <CardHeader className="space-y-1 text-center pb-2">
           <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Find Your Dream Property
+            Find Your Dream Rooms
           </CardTitle>
-          <p className="text-gray-500">Search through thousands of listings</p>
+          <p className="text-gray-500">Search through.......</p>
         </CardHeader>
 
         <CardContent className="space-y-6 p-6">
