@@ -105,7 +105,7 @@ const ThirdHeader = () => {
       <div className="flex justify-between items-center px-6 py-4">
         {/* Left Section: Logo */}
         <img
-          src="https://media-hosting.imagekit.io//f537332828db4150/Untitled%20design%20(6).png"
+          src="https://media-hosting.imagekit.io//f537332828db4150/Untitled%20design%20(6).png?Expires=1735836349&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=vqdXjCW5C1xv~AV2l6unmr6o-M-9ujOe8qn~g6sioFFfsA5j6pRggb4CN08He3faq4vmAFkSNPNIl8VQcMydM97J3kpXWq4oGG7rhxqvn5ayJ3vP4myan4sDyuIrzhnsd4cPFR~6k3BoYjgoOlhcoW5nNJEy6qgFL~1g1rhRRP9QwG4tYAS1CyH5N9KerOBgoHBuuBPIKPGMvCDopFroVyczPz4vV-e1KMXN3aWk5~Fqp~WOSzRom7LmVhn-i9yS0wA~9khpFiYFkR9e4AKiXtyt7iNgmXgda6qeG7nrPon9MSo-Yu8oAAXYvpk5skSnFLjoBFohzR2IQRds5pFQEA__"
           alt="Logo"
           className="h-12 cursor-pointer"
           onClick={() => navigate("/")}
