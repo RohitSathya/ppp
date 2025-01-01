@@ -15,12 +15,19 @@ const PropertySlider = ({ filters, setFilters }) => {
     navigate("/properties", { state: { filters } });
   };
 
-  const cities = [
-    "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad",
-    "Chennai", "Kolkata", "Pune", "Jaipur", "Surat",
-    "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane",
-    "Bhopal", "Visakhapatnam", "Vadodara", "Firozabad", "Ludhiana"
-  ];
+const cities = [
+  "Chandigarh",
+  "Mohali",
+  "Kharar",
+  "Zirakpur",
+  "Sahibzada Ajit Singh Nagar",
+  "Chandigarh University, Mohali",
+  "Chandigarh University South Campus, Mohali",
+  "Chitkara University, Chandigarh",
+  "Panjab University, Chandigarh",
+  "Lovely Professional University, Phagwara",
+];
+
 
   useEffect(() => {
     const fetchProperties = async () => {
