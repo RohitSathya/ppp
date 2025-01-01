@@ -11,10 +11,18 @@ const ThirdHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginView, setIsLoginView] = useState(true);
   const [showModal, setShowModal] = useState(false);
+    const [showMobilePrompt, setShowMobilePrompt] = useState(false);
+  const [mobileNumber, setMobileNumber] = useState("");
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
   const navigate = useNavigate();
+  useEffect(() => {
+    if (user && !user.mobile) {
+      setShowMobilePrompt(true);
+    }
+  }, [user]);
+
 
   const toggleModal = () => setShowModal(!showModal);
 
@@ -25,19 +33,24 @@ const ThirdHeader = () => {
         toast.error("Google login failed.");
         return;
       }
-
+  
       const response = await fetch(`${link}/api/auth/google-login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(result.user),
       });
-
+  
       const data = await response.json();
       if (response.ok && data.success) {
-        setUser(data.user);
+        setUser(data.user); // Save user details
         localStorage.setItem("user", JSON.stringify(data.user));
         toast.success(`Welcome, ${data.user.username}!`);
         setShowModal(false);
+  
+        // Prompt for mobile number if missing
+        if (!data.user.mobile) {
+          setShowMobilePrompt(true);
+        }
       } else {
         toast.error(data.message || "Failed to save user data.");
       }
@@ -46,7 +59,44 @@ const ThirdHeader = () => {
       toast.error("An unexpected error occurred.");
     }
   };
-
+  
+  const handleMobileSubmit = async () => {
+    // Validate mobile number
+    const isValidMobile = /^[6-9]\d{9}$/.test(mobileNumber); // Validates a 10-digit number starting with 6-9
+    if (!mobileNumber) {
+      toast.error("Please enter your mobile number.");
+      return;
+    }
+    if (!isValidMobile) {
+      toast.error("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`${link}/api/auth/update-mobile`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, mobile: mobileNumber }),
+      });
+  
+      const data = await response.json();
+      if (response.ok && data.success) {
+        // Update user data
+        const updatedUser = { ...user, mobile: mobileNumber };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        toast.success("Mobile number updated successfully!");
+        setShowMobilePrompt(false);
+      } else {
+        toast.error(data.message || "Failed to update mobile number.");
+      }
+    } catch (error) {
+      console.error("Error during mobile number submission:", error);
+      toast.error("An unexpected error occurred.");
+    }
+  };
+  
+  
   const handleLogin = async (event) => {
     event.preventDefault();
     const email = event.target.email.value;
@@ -64,6 +114,9 @@ const ThirdHeader = () => {
       localStorage.setItem("user", JSON.stringify(data.user));
       toast.success(`Welcome back, ${data.user.username}!`);
       setShowModal(false);
+      if (!data.user.mobile) {
+        setShowMobilePrompt(true);
+      }
     } else {
       toast.error(data.message || "Login failed.");
     }
@@ -74,16 +127,17 @@ const ThirdHeader = () => {
     const username = event.target.username.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
+    const phone = event.target.phone.value;
 
     const response = await fetch(`${link}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ username, email, password, phone }),
     });
 
     const data = await response.json();
     if (data.success) {
-      const newUser = { username, email };
+      const newUser = { username, email, mobile: phone };
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
       toast.success(`Welcome, ${username}!`);
@@ -294,6 +348,11 @@ const ThirdHeader = () => {
                     className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
                   />
                   <input
+                    name="phone"
+                    placeholder="Mobile number"
+                    className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
+                  />
+                  <input
                     name="email"
                     placeholder="Email"
                     className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
@@ -313,6 +372,30 @@ const ThirdHeader = () => {
                 </form>
               )}
             </div>
+          </div>
+        </div>
+      )}
+      {showMobilePrompt && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6">
+            <h2 className="text-lg font-bold text-gray-700 mb-4">Mobile Number Required</h2>
+            <p className="text-gray-600 mb-4">
+              Please enter your mobile number to proceed.
+            </p>
+            <input
+              type="text"
+              placeholder="Mobile Number"
+              value={mobileNumber}
+              maxLength='10'
+              onChange={(e) => setMobileNumber(e.target.value)}
+              className="w-full border px-4 py-2 rounded-lg mb-4 focus:ring focus:ring-orange-500 focus:outline-none text-black"
+            />
+            <button
+              onClick={handleMobileSubmit}
+              className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition"
+            >
+              Submit
+            </button>
           </div>
         </div>
       )}
