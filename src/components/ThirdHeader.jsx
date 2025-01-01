@@ -350,6 +350,7 @@ const ThirdHeader = () => {
                   <input
                     name="phone"
                     placeholder="Mobile number"
+                    maxLength="10"
                     className="w-full border px-4 py-2 rounded-lg text-black focus:ring focus:ring-orange-500 focus:outline-none"
                   />
                   <input
