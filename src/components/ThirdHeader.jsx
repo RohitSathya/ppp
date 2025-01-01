@@ -151,24 +151,9 @@ const ThirdHeader = () => {
               >
                 Register
               </a>
-              <a
-                href="#"
-                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-              >
-                My Profile
-              </a>
-              <a
-                href="#"
-                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-              >
-                My Properties
-              </a>
-              <a
-                href="#"
-                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-              >
-                My Invoices
-              </a>
+             
+             
+           
               <a
                 href="#"
                 className="block text-gray-700 hover:text-orange-500 font-medium py-2"
@@ -176,18 +161,8 @@ const ThirdHeader = () => {
               >
                 My Favourites
               </a>
-              <a
-                href="#"
-                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-              >
-                My Saved Searches
-              </a>
-              <a
-                href="#"
-                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
-              >
-                Submit New Property
-              </a>
+             
+            
             </div>
           </div>
         </nav>
