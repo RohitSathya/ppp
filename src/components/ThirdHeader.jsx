@@ -125,12 +125,71 @@ const ThirdHeader = () => {
           >
             PROPERTIES
           </a>
-          <a
-            href="#"
-            className="text-black hover:text-orange-500 font-medium cursor-pointer"
-          >
-            MY ACCOUNT
-          </a>
+          <div className="relative group">
+            <a
+              href="#"
+              className="text-black hover:text-orange-500 font-medium flex items-center"
+            >
+              MY ACCOUNT
+              <span className="ml-1 text-orange-500">▼</span>
+            </a>
+            {/* Dropdown */}
+            <div
+              className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 p-4 w-48 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300"
+            >
+              <a
+                href="#"
+                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
+                onClick={() => navigate('/login')}
+              >
+                Login
+              </a>
+              <a
+                href="#"
+                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
+                onClick={() => navigate('/register')}
+              >
+                Register
+              </a>
+              <a
+                href="#"
+                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
+              >
+                My Profile
+              </a>
+              <a
+                href="#"
+                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
+              >
+                My Properties
+              </a>
+              <a
+                href="#"
+                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
+              >
+                My Invoices
+              </a>
+              <a
+                href="#"
+                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
+                onClick={() => navigate('/favouriteproperty')}
+              >
+                My Favourites
+              </a>
+              <a
+                href="#"
+                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
+              >
+                My Saved Searches
+              </a>
+              <a
+                href="#"
+                className="block text-gray-700 hover:text-orange-500 font-medium py-2"
+              >
+                Submit New Property
+              </a>
+            </div>
+          </div>
         </nav>
 
         {/* Right Section: Login/Register */}
