@@ -36,28 +36,16 @@ const AgentsSlider = () => {
     dots: false,
     infinite: agents.length > 1,
     speed: 500,
-    slidesToShow: Math.min(agents.length, 4), // Up to 4 agents per view
+    slidesToShow: 2, // Show 2 agents per view by default
     slidesToScroll: 1,
     arrows: agents.length > 1,
     autoplay: agents.length > 1,
     autoplaySpeed: 3000,
     responsive: [
       {
-        breakpoint: 1024, // Tablet view
-        settings: {
-          slidesToShow: Math.min(agents.length, 3),
-        },
-      },
-      {
         breakpoint: 768, // Mobile view
         settings: {
-          slidesToShow: Math.min(agents.length, 2),
-        },
-      },
-      {
-        breakpoint: 480, // Smaller screens
-        settings: {
-          slidesToShow: 1,
+          slidesToShow: 1, // Show 1 agent per view on small screens
         },
       },
     ],
@@ -105,18 +93,18 @@ const AgentsSlider = () => {
           <Slider {...settings}>
             {agents.map((agent, index) => (
               <div key={index} className="px-2">
-                <div className="bg-white shadow-md hover:shadow-lg rounded-lg">
+                <div className="bg-white shadow-md hover:shadow-lg rounded-lg p-4">
                   {/* Agent Image */}
                   <img
                     src={agent.image}
                     alt={agent.name}
-                    className="w-24 h-24 mx-auto mt-4 rounded-full object-cover"
+                    className="w-20 h-20 mx-auto rounded-full object-cover"
                   />
                   {/* Agent Details */}
                   <div className="mt-4 bg-black text-white rounded-b-lg py-4">
-                    <h3 className="text-sm md:text-base font-bold">{agent.name}</h3>
+                    <h3 className="text-sm md:text-base font-bold mb-2">{agent.name}</h3>
                     {/* Social Links */}
-                    <div className="flex justify-center space-x-4 mt-4">
+                    <div className="flex justify-center space-x-4">
                       <a
                         href={agent.social.facebook}
                         target="_blank"
