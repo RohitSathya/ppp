@@ -50,6 +50,9 @@ const AdminProperty = () => {
   ];
 
   const propertyTypes = [
+     "Apartment",
+     "Villa",
+     "Store",
     "PG",
     "Single Rooms",
     "Sharing PG",
