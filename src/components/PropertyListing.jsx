@@ -72,10 +72,10 @@ const PropertyListing = () => {
 
       <div className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 py-12">
         <h1 className="text-center text-4xl font-bold text-white mb-6">
-          Dream Properties
+          Dream Room
         </h1>
         <p className="text-center text-white text-lg">
-          Explore the best properties tailored to your preferences.
+          Explore the best rooms tailored to your preferences.
         </p>
       </div>
 
@@ -123,7 +123,7 @@ const PropertyListing = () => {
         ) : (
           <div className="text-center py-12">
             <p className="text-gray-600 text-lg">
-              No properties match your filters.
+              No rooms match your filters.
             </p>
           </div>
         )}
