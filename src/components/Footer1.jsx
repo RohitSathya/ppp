@@ -22,8 +22,7 @@ const Footer1 = () => {
             className="w-36 mb-4"
           />
           <p className="text-gray-400 mb-6">
-            Pellentesque habitant morbi tristique senetus et netus et malesuada
-            fames ac turpis. tortor quam, feugiat vitae.
+           Brorooms.com offers a wide range of rental properties, including kothis, villas, apartments, PGs, shared PGs, and single rooms. Find your ideal home or workspace with flexible rental options to suit your needs. Explore our listings today!
           </p>
           <div className="flex space-x-4">
             <a
