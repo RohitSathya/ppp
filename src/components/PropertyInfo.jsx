@@ -188,8 +188,7 @@ const PropertyInfo = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <FirstHeader />
-      <SecondHeader />
+
       <ThirdHeader />
 
       <main className="container mx-auto px-4 py-8 max-w-7xl">
