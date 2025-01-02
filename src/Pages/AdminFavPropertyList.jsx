@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MapPin, Bed, Bath } from "lucide-react";
-
+import link from '../link'
 const AdminFavPropertyList = () => {
   const [favoriteProperties, setFavoriteProperties] = useState([]);
 
@@ -9,7 +9,7 @@ const AdminFavPropertyList = () => {
   useEffect(() => {
     const fetchFavoriteProperties = async () => {
       try {
-        const response = await axios.get("/api/admin/favorite-properties");
+        const response = await axios.get(`${link}/api/admin/favorite-properties`);
         setFavoriteProperties(response.data);
       } catch (error) {
         console.error("Error fetching favorite properties:", error);
