@@ -21,29 +21,46 @@ const Owner = () => {
     price: "",
     address: "",
     state: "Punjab",
-    city: null,
+    city: "",
     type: "",
+    agent: "",
+    time: "",
     size: "",
+    status: "active",
     bedrooms: 0,
     bathrooms: 0,
-    agent: "",
-    badges: [],
+    badges: "Rent",
     carouselImages: [],
+    location: {
+      lat: 0,
+      lng: 0,
+    },
+    preferredTenant: "",
+    furnishedType: "",
+    category: "",
   });
   const [editId, setEditId] = useState(null);
   const [previewImages, setPreviewImages] = useState({
     main: null,
     carousel: [],
   });
-  const states = [
+  const categories = ["1BHK", "2BHK", "3BHK", "4BHK", "4+ BHK", "Studio Apartment", "Annexy"];
+  const tenants = [
+    "All",
+    "Boys",
+    "Girls",
+    "Boys & Girls",
+    "Family",
+    "Family & Boys",
+    "Family & Girls",
+    "Company",
+  ];
+   const states = [
   "Punjab",         // Mohali, Kharar, Zirakpur, Sahibzada Ajit Singh Nagar, Phagwara
   "Chandigarh"      // Chandigarh, Panjab University
 ];
-
-const bg=['Rent','Sale']
-
-  
-   const cities = [
+  const furnishedTypes = ["Fully Furnished", "Semi Furnished", "Unfurnished"];
+  const cities = [
     "Chandigarh",
     "Mohali",
     "Kharar",
@@ -55,16 +72,10 @@ const bg=['Rent','Sale']
     "Panjab University, Chandigarh",
     "Lovely Professional University, Phagwara",
   ];
+  const propertyTypes = ["Apartment", "Villa", "Store", "PG", "Single Rooms", "Sharing PG", "Kothi"];
 
-  const propertyTypes = [
-         "Apartment",
-     "Villa",
-     "Store",
-    "PG",
-    "Single Rooms",
-    "Sharing PG",
-    "Kothi",
-  ];
+  const bg = ["Rent", "Sale"];
+
 
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -79,6 +90,7 @@ const bg=['Rent','Sale']
     email: "",
     phone: "",
   });
+  
   const handleCountryChange = (selectedOption) => {
     setFormData((prev) => ({ ...prev, country: selectedOption }));
     fetchStates(selectedOption.label);
@@ -248,6 +260,7 @@ const handleInputChange = (e) => {
     setCurrentCarouselIndex(0);
   };
 
+ 
   const resetForm = () => {
     setEditId(null);
     setFormData({
@@ -255,14 +268,24 @@ const handleInputChange = (e) => {
       title: "",
       price: "",
       address: "",
+      state: "",
+      city: "",
+      status: "active",
       type: "",
+      agent: "",
+      time: "",
       size: "",
-      state:"",
-      city:"",
       bedrooms: 0,
       bathrooms: 0,
       badges: [],
       carouselImages: [],
+      location: {
+        lat: 0,
+        lng: 0,
+      },
+      preferredTenant: "",
+      furnishedType: "",
+      category: "",
     });
     setPreviewImages({
       main: null,
@@ -436,6 +459,7 @@ const handleInputChange = (e) => {
                 type="text"
                 name="phone"
                 value={profileData.phone}
+                maxLength="10"
                 onChange={handleProfileChange}
                 placeholder="Phone Number"
                 className="bg-gray-700 text-white"
@@ -526,6 +550,23 @@ const handleInputChange = (e) => {
                       required
                     />
                   </div>
+                    <div className="space-y-2">
+                  <Label>Category</Label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                   
                   
   
@@ -557,6 +598,18 @@ const handleInputChange = (e) => {
                     ))}
                   </select>
                 </div>
+                  <div className="space-y-2">
+  <Label>Status</Label>
+  <select
+    name="status"
+    value={formData.status}
+    onChange={handleInputChange}
+    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+  >
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+  </select>
+</div>
   
                   <div className="space-y-2">
                     <Label>Agent Name</Label>
@@ -579,30 +632,41 @@ const handleInputChange = (e) => {
                       required
                     />
                   </div>
+                   <div className="space-y-2">
+                  <Label>Preferred Tenant</Label>
+                  <select
+                    name="preferredTenant"
+                    value={formData.preferredTenant}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  >
+                    <option value="">Select Tenant</option>
+                    {tenants.map((tenant) => (
+                      <option key={tenant} value={tenant}>
+                        {tenant}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Furnished Type</Label>
+                  <select
+                    name="furnishedType"
+                    value={formData.furnishedType}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  >
+                    <option value="">Select Furnished Type</option>
+                    {furnishedTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </div>
   
-                  <div className="space-y-2">
-                    <Label>Bedrooms</Label>
-                    <Input
-                      type="number"
-                      name="bedrooms"
-                      value={formData.bedrooms}
-                      onChange={handleInputChange}
-                      min="0"
-                      required
-                    />
-                  </div>
-  
-                  <div className="space-y-2">
-                    <Label>Bathrooms</Label>
-                    <Input
-                      type="number"
-                      name="bathrooms"
-                      value={formData.bathrooms}
-                      onChange={handleInputChange}
-                      min="0"
-                      required
-                    />
-                  </div>
+                 
   
                 <div className="space-y-2">
   <Label>Badges</Label>
