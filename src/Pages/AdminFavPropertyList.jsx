@@ -56,12 +56,9 @@ const AdminFavPropertyList = () => {
                 <div className="flex justify-between mt-2">
                   <span className="text-sm text-gray-500 flex items-center">
                     <Bed className="w-4 h-4 mr-1" />
-                    {property.bedrooms} Beds
+                    {property.category} Category
                   </span>
-                  <span className="text-sm text-gray-500 flex items-center">
-                    <Bath className="w-4 h-4 mr-1" />
-                    {property.bathrooms} Baths
-                  </span>
+                 
                 </div>
               </div>
               {/* User Details */}
