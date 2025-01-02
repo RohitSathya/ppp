@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Card, CardContent } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -13,21 +14,24 @@ const AdminProperty = () => {
     title: "",
     price: "",
     address: "",
-    type: "",
-    state: "",
+    state: "Punjab",
     city: "",
+    type: "",
     agent: "",
     time: "",
     size: "",
-    status: "",
+    status: "active",
     bedrooms: 0,
     bathrooms: 0,
-    badges: [],
+    badges: "Rent",
     carouselImages: [],
     location: {
       lat: 0,
       lng: 0,
     },
+    preferredTenant: "",
+    furnishedType: "",
+    category: "",
   });
   const [editId, setEditId] = useState(null);
   const [previewImages, setPreviewImages] = useState({
@@ -36,6 +40,22 @@ const AdminProperty = () => {
   });
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
 
+  const categories = ["1BHK", "2BHK", "3BHK", "4BHK", "4+ BHK", "Studio Apartment", "Annexy"];
+  const tenants = [
+    "All",
+    "Boys",
+    "Girls",
+    "Boys & Girls",
+    "Family",
+    "Family & Boys",
+    "Family & Girls",
+    "Company",
+  ];
+   const states = [
+  "Punjab",         // Mohali, Kharar, Zirakpur, Sahibzada Ajit Singh Nagar, Phagwara
+  "Chandigarh"      // Chandigarh, Panjab University
+];
+  const furnishedTypes = ["Fully Furnished", "Semi Furnished", "Unfurnished"];
   const cities = [
     "Chandigarh",
     "Mohali",
@@ -48,16 +68,9 @@ const AdminProperty = () => {
     "Panjab University, Chandigarh",
     "Lovely Professional University, Phagwara",
   ];
+  const propertyTypes = ["Apartment", "Villa", "Store", "PG", "Single Rooms", "Sharing PG", "Kothi"];
 
-  const propertyTypes = [
-     "Apartment",
-     "Villa",
-     "Store",
-    "PG",
-    "Single Rooms",
-    "Sharing PG",
-    "Kothi",
-  ];
+  const bg = ["Rent", "Sale"];
 
   useEffect(() => {
     fetchProperties();
@@ -116,8 +129,9 @@ const AdminProperty = () => {
       resetForm();
       fetchProperties();
     } catch (error) {
-      toast.error(editId ? "Error updating property" : "Error adding property");
-    }
+    console.error("Error response:", error.response?.data);
+    toast.error(error.response?.data?.message || "Error adding/updating property");
+  }
   };
 
   const handleDelete = async (id) => {
@@ -151,7 +165,7 @@ const AdminProperty = () => {
       address: "",
       state: "",
       city: "",
-      status: "",
+      status: "active",
       type: "",
       agent: "",
       time: "",
@@ -164,6 +178,9 @@ const AdminProperty = () => {
         lat: 0,
         lng: 0,
       },
+      preferredTenant: "",
+      furnishedType: "",
+      category: "",
     });
     setPreviewImages({
       main: null,
@@ -174,6 +191,7 @@ const AdminProperty = () => {
 
   return (
     <>
+      <ToastContainer />
       <div className="container mx-auto p-4">
         <h1 className="text-3xl font-bold mb-6 text-center">Property Management</h1>
 
@@ -181,16 +199,24 @@ const AdminProperty = () => {
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <Label>State</Label>
-                  <Input
-                    type="text"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleInputChange}
-                    placeholder="Mention State in Fullform"
-                  />
-                </div>
+                 <div className="space-y-2">
+  <Label>State</Label>
+  <select
+    name="state"
+    value={formData.state}
+    onChange={handleInputChange}
+    className="w-full pl-3 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+  >
+    <option value="" disabled>
+      Select a State
+    </option>
+    {states.map((state, index) => (
+      <option key={index} value={state}>
+        {state}
+      </option>
+    ))}
+  </select>
+</div>
 
                 <div className="space-y-2">
                   <Label>City</Label>
@@ -221,6 +247,24 @@ const AdminProperty = () => {
                 </div>
 
                 <div className="space-y-2">
+                  <Label>Category</Label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
                   <Label>Price</Label>
                   <Input
                     name="price"
@@ -237,7 +281,7 @@ const AdminProperty = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    placeholder="Address"
+                    placeholder="Property Address"
                     required
                   />
                 </div>
@@ -261,7 +305,7 @@ const AdminProperty = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Agent</Label>
+                  <Label>Agent Name</Label>
                   <Input
                     name="agent"
                     value={formData.agent}
@@ -270,6 +314,19 @@ const AdminProperty = () => {
                     required
                   />
                 </div>
+                <div className="space-y-2">
+  <Label>Status</Label>
+  <select
+    name="status"
+    value={formData.status}
+    onChange={handleInputChange}
+    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+  >
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+  </select>
+</div>
+
 
                 <div className="space-y-2">
                   <Label>Size</Label>
@@ -283,55 +340,56 @@ const AdminProperty = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Bedrooms</Label>
-                  <Input
-                    type="number"
-                    name="bedrooms"
-                    value={formData.bedrooms}
-                    onChange={handleInputChange}
-                    min="0"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Bathrooms</Label>
-                  <Input
-                    type="number"
-                    name="bathrooms"
-                    value={formData.bathrooms}
-                    onChange={handleInputChange}
-                    min="0"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Status</Label>
+                  <Label>Preferred Tenant</Label>
                   <select
-                    name="status"
-                    value={formData.status}
+                    name="preferredTenant"
+                    value={formData.preferredTenant}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    required
                   >
-                    <option value="">Select Status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
+                    <option value="">Select Tenant</option>
+                    {tenants.map((tenant) => (
+                      <option key={tenant} value={tenant}>
+                        {tenant}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Badges (comma-separated)</Label>
-                  <Input
-                    name="badges"
-                    value={formData.badges.join(", ")}
-                    onChange={handleBadgesChange}
-                    placeholder="Featured, For Rent, etc."
-                  />
+                  <Label>Furnished Type</Label>
+                  <select
+                    name="furnishedType"
+                    value={formData.furnishedType}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  >
+                    <option value="">Select Furnished Type</option>
+                    {furnishedTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="space-y-2">
+                  <Label>Badges</Label>
+                  <select
+                    name="badges"
+                    value={formData.badges}
+                    onChange={handleInputChange}
+                    className="w-full pl-3 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    {bg.map((badge, index) => (
+                      <option key={index} value={badge}>
+                        {badge}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2 col-span-full">
                   <Label>Main Image URL</Label>
                   <Input
                     name="image"
@@ -351,50 +409,6 @@ const AdminProperty = () => {
                     placeholder="Image URL 1, Image URL 2, ..."
                   />
                 </div>
-              </div>
-
-              {/* Image Previews */}
-              <div className="mt-6 space-y-4">
-                <div className="space-y-2">
-                  <Label>Main Image Preview</Label>
-                  {previewImages.main && (
-                    <img
-                      src={previewImages.main}
-                      alt="Main preview"
-                      className="w-full max-w-md h-48 object-cover rounded-lg"
-                    />
-                  )}
-                </div>
-
-                {previewImages.carousel.length > 0 && (
-                  <div className="space-y-2">
-                    <Label>Carousel Preview</Label>
-                    <div className="relative">
-                      <img
-                        src={previewImages.carousel[currentCarouselIndex]}
-                        alt={`Carousel ${currentCarouselIndex + 1}`}
-                        className="w-full max-w-md h-48 object-cover rounded-lg"
-                      />
-                      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                        {previewImages.carousel.map((_, index) => (
-                          <button
-                            key={index}
-                            type="button"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setCurrentCarouselIndex(index);
-                            }}
-                            className={`w-2 h-2 rounded-full ${
-                              index === currentCarouselIndex
-                                ? "bg-blue-500"
-                                : "bg-gray-300"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
 
               <div className="flex space-x-4">
@@ -418,7 +432,6 @@ const AdminProperty = () => {
           </CardContent>
         </Card>
 
-        {/* Properties List */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -434,7 +447,7 @@ const AdminProperty = () => {
                     Price
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Type
+                    Category
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
@@ -453,7 +466,7 @@ const AdminProperty = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{property.title}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{property.price}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{property.type}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{property.category}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
                         onClick={() => handleEdit(property)}
