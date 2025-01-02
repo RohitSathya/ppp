@@ -43,7 +43,7 @@ function App() {
               <PropertySlider filters={filters} setFilters={setFilters} />
               {/* <PropertyListing filters={filters} /> */}
               <AgentsSlider />
-              <PropertyExplorer />
+              
               <MobileAppPromo />
               <ClientsSlider />
               <NewsletterSection />
