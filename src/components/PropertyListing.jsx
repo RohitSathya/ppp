@@ -119,7 +119,7 @@ const PropertyListing = () => {
 
   return (
     <>
-      <SecondHeader />
+
       <ThirdHeader />
 
       <div className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 py-12">
