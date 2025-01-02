@@ -106,8 +106,7 @@ const FavProperty = () => {
 
   return (
     <>
-      <FirstHeader />
-      <SecondHeader />
+    
       <ThirdHeader />
       <div className="bg-gray-50 min-h-screen py-10">
         <div className="container mx-auto px-4">
