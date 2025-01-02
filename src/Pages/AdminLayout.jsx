@@ -8,6 +8,7 @@ import ImageUploader from "./ImageUploader";
 import AgentTab from "./AgentTab";
 import ChartPage from "./ChartPage";
 import link from "../link"; // Import ChartPage for the chart feature
+import AdminFavPropertyList from "./AdminFavPropertyList";
 
 const AdminLayout = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -118,6 +119,7 @@ const AdminLayout = () => {
           <Route path="imlink" element={<ImageUploader />} />
           <Route path="agents" element={<AgentTab/>}></Route>
           <Route path="charts" element={<ChartPage />} /> {/* Chart Page */}
+          <Route path="favorites" element={<AdminFavPropertyList />} />
         </Routes>
       </div>
     </div>
