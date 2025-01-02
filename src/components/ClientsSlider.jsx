@@ -10,7 +10,6 @@ const ClientsSlider = () => {
     "https://beyot.g5plus.net/main/wp-content/uploads/2016/11/partner-01.png",
     "https://beyot.g5plus.net/main/wp-content/uploads/2016/11/partner-14.png",
     "https://beyot.g5plus.net/main/wp-content/uploads/2016/11/partner-04.png",
-
   ];
 
   const settings = {
@@ -46,36 +45,32 @@ const ClientsSlider = () => {
   };
 
   return (
-    <div className="py-16 bg-gradient-to-r from-gray-100 via-white to-gray-100">
-      {/* Section Header */}
-      <div className="text-center mb-10">
-        <p className="text-sm text-gray-500 uppercase tracking-wide">
-          We Always Have Trust
-        </p>
-        <h2 className="text-3xl font-bold text-gray-800">
-          OUR CLIENTS
-        </h2>
-        <div className="mt-3 h-1 w-16 bg-orange-500 mx-auto"></div>
-      </div>
+    <section className="bg-black py-12">
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
+        <div className="text-center mb-8">
+          <h3 className="text-lg text-gray-400 uppercase tracking-widest mb-2">
+            We Always Have Trust
+          </h3>
+          <h2 className="text-3xl font-bold text-white">OUR CLIENTS</h2>
+        </div>
 
-      {/* Slider Section */}
-      <div className="container mx-auto px-6">
+        {/* Slider Section */}
         <Slider {...settings}>
           {clients.map((client, index) => (
-            <div
-              key={index}
-              className="flex justify-center items-center px-2"
-            >
-              <img
-                src={client}
-                alt={`Client ${index + 1}`}
-                className="w-28 h-28 object-contain grayscale hover:grayscale-0 hover:scale-105 transition-all duration-500"
-              />
+            <div key={index} className="p-4">
+              <div className="bg-white rounded-lg shadow-md overflow-hidden flex items-center justify-center h-28">
+                <img
+                  src={client}
+                  alt={`Client ${index + 1}`}
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
             </div>
           ))}
         </Slider>
       </div>
-    </div>
+    </section>
   );
 };
 
