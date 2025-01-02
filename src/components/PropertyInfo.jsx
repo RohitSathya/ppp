@@ -37,9 +37,12 @@ const PropertyInfo = () => {
   const [featuredProperties, setFeaturedProperties] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [ownerDetails, setOwnerDetails] = useState(null);
+  const [isLoadingOwner, setIsLoadingOwner] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
+  console.log(property)
   useEffect(() => {
     if (user && property?._id) {
       axios
@@ -51,6 +54,19 @@ const PropertyInfo = () => {
         .catch((error) => console.error("Error fetching favorite status:", error));
     }
   }, [user, property?._id]);
+  
+   const fetchOwnerDetails = async (ownerId) => {
+    try {
+      setIsLoadingOwner(true);
+      const response = await axios.get(`${link}/api/owner/${ownerId}`);
+      setOwnerDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching owner details:", error);
+      alert("Failed to fetch owner details.");
+    } finally {
+      setIsLoadingOwner(false);
+    }
+  };
 
   const fav = async (property) => {
     if (!user) {
@@ -243,17 +259,11 @@ const PropertyInfo = () => {
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div className="flex items-center">
                   <Bed className="w-5 h-5 mr-2 text-gray-600" />
-                  <span>Bedrooms</span>
+                  <span>Category</span>
                 </div>
-                <span className="font-semibold">{property.bedrooms}</span>
+                <span className="font-semibold">{property.category}</span>
               </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center">
-                  <Bath className="w-5 h-5 mr-2 text-gray-600" />
-                  <span>Bathrooms</span>
-                </div>
-                <span className="font-semibold">{property.bathrooms}</span>
-              </div>
+             
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <span>Size</span>
                 <span className="font-semibold">{property.size}</span>
@@ -262,10 +272,30 @@ const PropertyInfo = () => {
                 <span>Type</span>
                 <span className="font-semibold">{property.type}</span>
               </div>
-              <button className="w-full py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-semibold" onClick={() => fav(property)}>
-                Save to Favourites
-              </button>
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span>FurnishedType</span>
+                <span className="font-semibold">{property.furnishedType}</span>
+              </div>
+               
+              
+              <button
+            onClick={() => fetchOwnerDetails(property.owner)}
+            className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            {isLoadingOwner ? "Fetching..." : "Reserve Property"}
+          </button>
             </div>
+               {ownerDetails && (
+          <div className="mt-6 p-4 bg-white shadow-lg rounded-lg">
+            <h2 className="text-2xl font-bold mb-4">Owner Details</h2>
+            <p className="text-lg">
+              <strong>Phone:</strong> {ownerDetails.phone || "N/A"}
+            </p>
+            <p className="text-lg">
+              <strong>Email:</strong> {ownerDetails.email || "N/A"}
+            </p>
+          </div>
+        )}
           </div>
         </div>
 
