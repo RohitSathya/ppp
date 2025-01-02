@@ -58,6 +58,10 @@ const AdminFavPropertyList = () => {
                     <Bed className="w-4 h-4 mr-1" />
                     {property.category} Category
                   </span>
+                   <span className="text-sm text-gray-500 flex items-center">
+                    <Bed className="w-4 h-4 mr-1" />
+                    {property.address} Address
+                  </span>
                  
                 </div>
               </div>
