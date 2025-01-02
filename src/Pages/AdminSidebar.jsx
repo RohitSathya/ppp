@@ -32,6 +32,16 @@ const AdminSidebar = () => {
         >
           Property
         </NavLink>
+         <NavLink
+          to="/admin/favorites"
+          className={({ isActive }) =>
+            `block py-4 px-6 text-lg font-medium hover:bg-gray-700 hover:text-orange-400 transition ${
+              isActive ? "bg-gray-700 text-orange-400" : ""
+            }`
+          }
+        >
+          Favorite Properties
+        </NavLink>
         <NavLink
           to="/admin/users"
           className={({ isActive }) =>
