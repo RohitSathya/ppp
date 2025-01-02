@@ -20,7 +20,7 @@ const Owner = () => {
     title: "",
     price: "",
     address: "",
-    state: null,
+    state: "Punjab",
     city: null,
     type: "",
     size: "",
@@ -35,6 +35,14 @@ const Owner = () => {
     main: null,
     carousel: [],
   });
+  const states = [
+  "Punjab",         // Mohali, Kharar, Zirakpur, Sahibzada Ajit Singh Nagar, Phagwara
+  "Chandigarh"      // Chandigarh, Panjab University
+];
+
+const bg=['Rent','Sale']
+
+  
    const cities = [
     "Chandigarh",
     "Mohali",
@@ -49,6 +57,9 @@ const Owner = () => {
   ];
 
   const propertyTypes = [
+         "Apartment",
+     "Villa",
+     "Store",
     "PG",
     "Single Rooms",
     "Sharing PG",
@@ -459,18 +470,24 @@ const handleInputChange = (e) => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
            
-            <div className="space-y-2">
-              <Label>State</Label>
-              <Input
-              type="text"
-              name="state"
-               
-                value={formData.state}
-                onChange={handleInputChange}
-                placeholder="Mention State in Fullform"
-               
-              />
-            </div>
+           <div className="space-y-2">
+  <Label>State</Label>
+  <select
+    name="state"
+    value={formData.state}
+    onChange={handleInputChange}
+    className="w-full pl-3 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+  >
+    <option value="" disabled>
+      Select a State
+    </option>
+    {states.map((state, index) => (
+      <option key={index} value={state}>
+        {state}
+      </option>
+    ))}
+  </select>
+</div>
             {/* City */}
            <div className="space-y-2">
                   <Label>City</Label>
@@ -587,16 +604,21 @@ const handleInputChange = (e) => {
                     />
                   </div>
   
-                  <div className="space-y-2">
-                    <Label>Badges (comma-separated)</Label>
-                    <Input
-                      name="badges"
-                      value={formData.badges.join(", ")}
-                      onChange={handleBadgesChange}
-                      placeholder="Featured, For Rent, etc."
-                    />
-                  </div>
-  
+                <div className="space-y-2">
+  <Label>Badges</Label>
+  <select
+    name="badges"
+    value={formData.badges}
+   onChange={handleInputChange}
+    className="w-full pl-3 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+  >
+    {bg.map((badge, index) => (
+      <option key={index} value={badge}>
+        {badge}
+      </option>
+    ))}
+  </select>
+</div>
                   <div className="space-y-2">
                     <Label>Main Image URL</Label>
                     <Input
