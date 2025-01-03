@@ -152,7 +152,7 @@ const PropertyListing = () => {
               </div>
 
               <div className="filter-section">
-                <label className="block text-sm font-semibold mb-3 text-gray-700">Price Range</label>
+                
                 <div className="space-y-3">
                  
                 </div>
