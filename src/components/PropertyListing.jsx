@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
+import SecondHeader from "./SecondHeader";
 import ThirdHeader from "./ThirdHeader";
 import NewsletterSection from "./NewsletterSection";
 import Footer1 from "./Footer1";
@@ -45,7 +46,7 @@ const PropertyListing = () => {
         const res = await axios.get(`${link}/api/property`);
         setProperties(res.data);
         setFilteredProperties(res.data);
-        console.log(res.data);
+        console.log(res.data)
       } catch (error) {
         console.error("Error fetching properties:", error);
       }
@@ -81,7 +82,7 @@ const PropertyListing = () => {
     const { name, value } = e.target;
     setFilters((prev) => ({
       ...prev,
-      [name]: value === "" ? "" : value,
+      [name]: prev[name] === value ? "" : value, // Toggle filter off if clicked again
     }));
   };
 
@@ -118,6 +119,7 @@ const PropertyListing = () => {
 
   return (
     <>
+
       <ThirdHeader />
 
       <div className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 py-12">
@@ -132,19 +134,19 @@ const PropertyListing = () => {
 
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-2">Category</label>
-            <select
-              name="category"
-              value={filters.category}
-              onChange={handleFilterChange}
-              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">All Categories</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+            {categories.map((category) => (
+              <div key={category} className="flex items-center mb-2">
+                <input
+                  type="radio"
+                  name="category"
+                  value={category}
+                  checked={filters.category === category}
+                  onChange={handleFilterChange}
+                  className="mr-2"
+                />
+                <label className="text-sm">{category}</label>
+              </div>
+            ))}
           </div>
 
           <div className="mb-4">
@@ -156,7 +158,7 @@ const PropertyListing = () => {
                 value={filters.minPrice}
                 onChange={(e) => handlePriceChange(e, "minPrice")}
                 placeholder="Min"
-                className="w-1/2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-1/2 p-2 border rounded"
               />
               <input
                 type="number"
@@ -164,43 +166,43 @@ const PropertyListing = () => {
                 value={filters.maxPrice}
                 onChange={(e) => handlePriceChange(e, "maxPrice")}
                 placeholder="Max"
-                className="w-1/2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-1/2 p-2 border rounded"
               />
             </div>
           </div>
 
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-2">Preferred Tenant</label>
-            <select
-              name="preferredTenant"
-              value={filters.preferredTenant}
-              onChange={handleFilterChange}
-              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">All Tenants</option>
-              {tenants.map((tenant) => (
-                <option key={tenant} value={tenant}>
-                  {tenant}
-                </option>
-              ))}
-            </select>
+            {tenants.map((tenant) => (
+              <div key={tenant} className="flex items-center mb-2">
+                <input
+                  type="radio"
+                  name="preferredTenant"
+                  value={tenant}
+                  checked={filters.preferredTenant === tenant}
+                  onChange={handleFilterChange}
+                  className="mr-2"
+                />
+                <label className="text-sm">{tenant}</label>
+              </div>
+            ))}
           </div>
 
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-2">Furnished Type</label>
-            <select
-              name="furnishedType"
-              value={filters.furnishedType}
-              onChange={handleFilterChange}
-              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">All Types</option>
-              {furnishedTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
+            {furnishedTypes.map((type) => (
+              <div key={type} className="flex items-center mb-2">
+                <input
+                  type="radio"
+                  name="furnishedType"
+                  value={type}
+                  checked={filters.furnishedType === type}
+                  onChange={handleFilterChange}
+                  className="mr-2"
+                />
+                <label className="text-sm">{type}</label>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -252,10 +254,10 @@ const PropertyListing = () => {
                   <button
                     key={index}
                     className={`px-3 py-1 mx-1 rounded border ${
-                      currentPage === index + 1
-                        ? "bg-blue-500 text-white"
-                        : "bg-white text-blue-500 border-blue-500"
-                    }`}
+                    currentPage === index + 1
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-blue-500 border-blue-500"
+                  }`}
                     onClick={() => handlePageChange(index + 1)}
                   >
                     {index + 1}
@@ -279,3 +281,4 @@ const PropertyListing = () => {
 };
 
 export default PropertyListing;
+	
