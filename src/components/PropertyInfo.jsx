@@ -103,31 +103,30 @@ const PropertyInfo = () => {
     beforeChange: (current, next) => setActiveImage(next),
   };
 
-  const featuredSliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-        },
+ const featuredSliderSettings = {
+  dots: false,
+  infinite: false, // Change to false to prevent infinite loop
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+  autoplay: false, // Disable autoplay to prevent looping
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 2,
       },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-        },
+    },
+    {
+      breakpoint: 640,
+      settings: {
+        slidesToShow: 1,
       },
-    ],
-  };
+    },
+  ],
+};
 
   useEffect(() => {
     if (property?._id) {
@@ -143,20 +142,17 @@ useEffect(() => {
     axios
       .get(`${link}/api/property`)
       .then((response) => {
-        // Filter out the current property
-        const filteredProperties = response.data.filter(
-          (prop) => prop._id !== property._id
-        );
+        // Remove duplicates using Set and filter out current property
+        const uniquePropertyIds = new Set();
+        const uniqueProperties = response.data.filter(prop => {
+          if (prop._id === property._id || uniquePropertyIds.has(prop._id)) {
+            return false;
+          }
+          uniquePropertyIds.add(prop._id);
+          return true;
+        }).slice(0, 6); // Limit to 6 properties
         
-        // Get only unique properties based on _id
-        const uniqueProperties = Array.from(
-          new Map(filteredProperties.map(item => [item._id, item])).values()
-        );
-        
-        // Limit to a reasonable number (e.g., 6)
-        const limitedProperties = uniqueProperties.slice(0, 6);
-        
-        setFeaturedProperties(limitedProperties);
+        setFeaturedProperties(uniqueProperties);
       })
       .catch((error) => console.error("Error fetching properties:", error));
   }
