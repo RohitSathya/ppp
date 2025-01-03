@@ -206,15 +206,17 @@ useEffect(() => {
             </div>
           </div>
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <button
-              onClick={() => fav(property)}
-              disabled={isUpdating}
-              className={p-2 rounded-full transition-colors ${
-                isFavorite ? "bg-red-50 text-red-500" : "bg-gray-100 text-gray-600"
-              } hover:bg-gray-200 ${isUpdating ? "opacity-50 cursor-not-allowed" : ""}}
-            >
-              <Heart className={w-6 h-6 ${isFavorite ? "fill-current" : ""}} />
-            </button>
+             <button
+    onClick={() => fav(property)}
+    disabled={isUpdating}
+    className={`p-2 rounded-full transition-colors ${
+      isFavorite ? "bg-red-50 text-red-500" : "bg-gray-100 text-gray-600"
+    } hover:bg-gray-200 ${
+      isUpdating ? "opacity-50 cursor-not-allowed" : ""
+    }`}
+  >
+    <Heart className={`w-6 h-6 ${isFavorite ? "fill-current" : ""}`} />
+  </button>
 
             <button className="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
               <Share2 className="w-6 h-6" />
