@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
-import { Motion, Spring } from "lucide-react";
+import { MapPin } from "lucide-react";
 import SecondHeader from "./SecondHeader";
 import ThirdHeader from "./ThirdHeader";
 import NewsletterSection from "./NewsletterSection";
@@ -128,7 +128,7 @@ const PropertyListing = () => {
 
       <div className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-center text-5xl font-bold text-white mb-6 animate-fade-in">
+          <h1 className="text-center text-5xl font-bold text-white mb-6">
             Find Your Dream Room
           </h1>
           <p className="text-center text-white text-xl max-w-2xl mx-auto">
@@ -140,7 +140,7 @@ const PropertyListing = () => {
       <div className="flex flex-col lg:flex-row max-w-7xl mx-auto p-6 gap-8">
         {/* Filter Sidebar */}
         <div className="w-full lg:w-1/4 space-y-6">
-          <div className="bg-white rounded-xl shadow-lg p-6 sticky top-6">
+          <div className="bg-white rounded-xl shadow-lg p-6">
             <h2 className="text-2xl font-bold mb-6 text-gray-800">Filters</h2>
 
             <div className="space-y-6">
@@ -253,7 +253,7 @@ const PropertyListing = () => {
                       >
                         <div className="relative h-56">
                           <img
-                            src={property.image || "https://via.placeholder.com/400x300"}
+                            src={property.image || "/api/placeholder/400/320"}
                             alt={property.title}
                             className="w-full h-full object-cover"
                           />
@@ -276,10 +276,10 @@ const PropertyListing = () => {
                             </span>
                           </div>
                           <p className="text-sm text-gray-600 flex items-center gap-1">
-                            <Motion className="w-4 h-4" />
+                            <MapPin className="w-4 h-4" />
                             {property.city}
                           </p>
-                          <div className="mt-2 flex items-center gap-2">
+                          <div className="mt-2 flex flex-wrap items-center gap-2">
                             <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-full">
                               {property.furnishedType}
                             </span>
@@ -296,7 +296,7 @@ const PropertyListing = () => {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-2">
+                <div className="flex justify-center items-center gap-2 flex-wrap">
                   {[...Array(totalPages)].map((_, index) => (
                     <button
                       key={index}
@@ -315,7 +315,7 @@ const PropertyListing = () => {
             </div>
           ) : (
             <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-              <Spring className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+              <MapPin className="w-16 h-16 mx-auto mb-4 text-gray-400" />
               <p className="text-gray-600 text-xl">No properties match your filters.</p>
               <p className="text-gray-400 mt-2">Try adjusting your search criteria</p>
             </div>
