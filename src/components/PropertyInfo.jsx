@@ -352,51 +352,54 @@ useEffect(() => {
         <div>
           <h2 className="text-3xl font-bold mb-6">Featured Properties</h2>
           <div className="relative">
-            <Slider {...featuredSliderSettings}>
-              {featuredProperties.map((featuredProperty) => (
-                <div key={featuredProperty._id} className="px-2">
-                  <div
-                    onClick={() => navigate(/property/${featuredProperty._id}, { state: featuredProperty })}
-                    className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform hover:scale-[1.02] transition-transform"
-                  >
-                    <div className="relative">
-                      <img
-                        src={featuredProperty.image}
-                        alt={featuredProperty.title}
-                        className="w-full h-48 object-cover"
-                      />
-                      <div className="absolute top-4 right-4">
-                        <Heart className="w-6 h-6 text-white hover:text-red-500 transition-colors" />
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-2 truncate">
-                        {featuredProperty.title}
-                      </h3>
-                      <div className="flex items-center text-gray-600 mb-2">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        <span className="text-sm truncate">{featuredProperty.address}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-orange-500 font-bold">
-                          {featuredProperty.price}
-                        </span>
-                        <div className="flex items-center space-x-3 text-gray-600">
-                          <div className="flex items-center">
-                            <Bed className="w-4 h-4 mr-1" />
-                            <span>{featuredProperty.bedrooms}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Bath className="w-4 h-4 mr-1" />
-                            <span>{featuredProperty.bathrooms}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </Slider>
+           <Slider {...featuredSliderSettings}>
+  {featuredProperties.map((featuredProperty) => (
+    <div key={featuredProperty._id} className="px-2">
+      <div
+        onClick={() =>
+          navigate(`/property/${featuredProperty._id}`, { state: featuredProperty })
+        }
+        className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform hover:scale-[1.02] transition-transform"
+      >
+        <div className="relative">
+          <img
+            src={featuredProperty.image}
+            alt={featuredProperty.title}
+            className="w-full h-48 object-cover"
+          />
+          <div className="absolute top-4 right-4">
+            <Heart className="w-6 h-6 text-white hover:text-red-500 transition-colors" />
+          </div>
+        </div>
+        <div className="p-4">
+          <h3 className="text-xl font-semibold mb-2 truncate">
+            {featuredProperty.title}
+          </h3>
+          <div className="flex items-center text-gray-600 mb-2">
+            <MapPin className="w-4 h-4 mr-1" />
+            <span className="text-sm truncate">{featuredProperty.address}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-orange-500 font-bold">
+              {featuredProperty.price}
+            </span>
+            <div className="flex items-center space-x-3 text-gray-600">
+              <div className="flex items-center">
+                <Bed className="w-4 h-4 mr-1" />
+                <span>{featuredProperty.bedrooms}</span>
+              </div>
+              <div className="flex items-center">
+                <Bath className="w-4 h-4 mr-1" />
+                <span>{featuredProperty.bathrooms}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</Slider>
+
           </div>
         </div>
       </main>
