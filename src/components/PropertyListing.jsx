@@ -154,22 +154,7 @@ const PropertyListing = () => {
               <div className="filter-section">
                 <label className="block text-sm font-semibold mb-3 text-gray-700">Price Range</label>
                 <div className="space-y-3">
-                  <input
-                    type="number"
-                    name="minPrice"
-                    value={filters.minPrice}
-                    onChange={(e) => handlePriceChange(e, "minPrice")}
-                    placeholder="Min Price"
-                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
-                  <input
-                    type="number"
-                    name="maxPrice"
-                    value={filters.maxPrice}
-                    onChange={(e) => handlePriceChange(e, "maxPrice")}
-                    placeholder="Max Price"
-                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
+                 
                 </div>
               </div>
 
