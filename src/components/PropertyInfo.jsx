@@ -240,7 +240,7 @@ useEffect(() => {
                       <div key={index} className="relative">
                         <img
                           src={img}
-                          alt={Carousel ${index + 1}}
+                           alt={`Carousel ${index + 1}`}
                           className="w-full h-[300px] object-cover rounded-lg"
                         />
                       </div>
