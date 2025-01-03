@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
+import { Motion, Spring } from "lucide-react";
 import SecondHeader from "./SecondHeader";
 import ThirdHeader from "./ThirdHeader";
 import NewsletterSection from "./NewsletterSection";
@@ -11,7 +12,7 @@ import Footer1 from "./Footer1";
 import Footer2 from "./Footer2";
 import link from "../link";
 
-const categories = ["1BHK", "2BHK", "3BHK", "4BHK", "4+ BHK", "Studio Apartment", "Annexy"];
+const categories = ["All", "1BHK", "2BHK", "3BHK", "4BHK", "4+ BHK", "Studio Apartment", "Annexy"];
 const tenants = [
   "All",
   "Boys",
@@ -22,7 +23,7 @@ const tenants = [
   "Family & Girls",
   "Company",
 ];
-const furnishedTypes = ["Fully Furnished", "Semi Furnished", "Unfurnished"];
+const furnishedTypes = ["All", "Fully Furnished", "Semi Furnished", "Unfurnished"];
 const ITEMS_PER_PAGE = 20;
 
 const PropertyListing = () => {
@@ -31,25 +32,27 @@ const PropertyListing = () => {
   const [properties, setProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
   const [filters, setFilters] = useState({
-    category: "",
-    preferredTenant: "",
-    furnishedType: "",
+    category: "All",
+    preferredTenant: "All",
+    furnishedType: "All",
     minPrice: 0,
     maxPrice: 500000,
   });
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProperties = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get(`${link}/api/property`);
         setProperties(res.data);
         setFilteredProperties(res.data);
-        console.log(res.data)
       } catch (error) {
         console.error("Error fetching properties:", error);
       }
+      setIsLoading(false);
     };
     fetchProperties();
   }, []);
@@ -63,14 +66,15 @@ const PropertyListing = () => {
         (!filters2.city || property.city?.toLowerCase() === filters2.city.toLowerCase()) &&
         (!filters2.minPrice || price >= filters2.minPrice) &&
         (!filters2.maxPrice || price <= filters2.maxPrice) &&
-        (!filters.category || property.category === filters.category) &&
-        (!filters.preferredTenant || property.preferredTenant === filters.preferredTenant) &&
-        (!filters.furnishedType || property.furnishedType === filters.furnishedType) &&
+        (filters.category === "All" || property.category === filters.category) &&
+        (filters.preferredTenant === "All" || property.preferredTenant === filters.preferredTenant) &&
+        (filters.furnishedType === "All" || property.furnishedType === filters.furnishedType) &&
         price >= filters.minPrice &&
         price <= filters.maxPrice
       );
     });
     setFilteredProperties(filtered);
+    setCurrentPage(1);
   }, [filters, properties]);
 
   const parsePrice = (price) => {
@@ -82,7 +86,7 @@ const PropertyListing = () => {
     const { name, value } = e.target;
     setFilters((prev) => ({
       ...prev,
-      [name]: prev[name] === value ? "" : value, // Toggle filter off if clicked again
+      [name]: value,
     }));
   };
 
@@ -100,14 +104,15 @@ const PropertyListing = () => {
     autoplay: true,
     autoplaySpeed: 3000,
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3 } },
-      { breakpoint: 768, settings: { slidesToShow: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1 } },
+      { breakpoint: 1280, settings: { slidesToShow: 3 } },
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 640, settings: { slidesToShow: 1 } },
     ],
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const paginatedProperties = filteredProperties.slice(
@@ -119,155 +124,200 @@ const PropertyListing = () => {
 
   return (
     <>
-
       <ThirdHeader />
 
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 py-12">
-        <h1 className="text-center text-4xl font-bold text-white mb-6">Dream Room</h1>
-        <p className="text-center text-white text-lg">Explore the best rooms tailored to your preferences.</p>
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <h1 className="text-center text-5xl font-bold text-white mb-6 animate-fade-in">
+            Find Your Dream Room
+          </h1>
+          <p className="text-center text-white text-xl max-w-2xl mx-auto">
+            Discover the perfect living space tailored to your lifestyle and preferences.
+          </p>
+        </div>
       </div>
 
-      <div className="flex flex-col md:flex-row max-w-7xl mx-auto p-6 gap-4">
+      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto p-6 gap-8">
         {/* Filter Sidebar */}
-        <div className="w-full md:w-1/4 bg-white rounded-lg shadow p-4">
-          <h2 className="text-xl font-bold mb-4">Filters</h2>
+        <div className="w-full lg:w-1/4 space-y-6">
+          <div className="bg-white rounded-xl shadow-lg p-6 sticky top-6">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Filters</h2>
 
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">Category</label>
-            {categories.map((category) => (
-              <div key={category} className="flex items-center mb-2">
-                <input
-                  type="radio"
-                  name="category"
-                  value={category}
-                  checked={filters.category === category}
-                  onChange={handleFilterChange}
-                  className="mr-2"
-                />
-                <label className="text-sm">{category}</label>
+            <div className="space-y-6">
+              <div className="filter-section">
+                <label className="block text-sm font-semibold mb-3 text-gray-700">Category</label>
+                <div className="space-y-2">
+                  {categories.map((category) => (
+                    <div key={category} className="flex items-center">
+                      <input
+                        type="radio"
+                        name="category"
+                        value={category}
+                        checked={filters.category === category}
+                        onChange={handleFilterChange}
+                        className="w-4 h-4 text-blue-600"
+                      />
+                      <label className="ml-3 text-sm text-gray-600 hover:text-gray-800">
+                        {category}
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">Price Range</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                name="minPrice"
-                value={filters.minPrice}
-                onChange={(e) => handlePriceChange(e, "minPrice")}
-                placeholder="Min"
-                className="w-1/2 p-2 border rounded"
-              />
-              <input
-                type="number"
-                name="maxPrice"
-                value={filters.maxPrice}
-                onChange={(e) => handlePriceChange(e, "maxPrice")}
-                placeholder="Max"
-                className="w-1/2 p-2 border rounded"
-              />
+              <div className="filter-section">
+                <label className="block text-sm font-semibold mb-3 text-gray-700">Price Range</label>
+                <div className="space-y-3">
+                  <input
+                    type="number"
+                    name="minPrice"
+                    value={filters.minPrice}
+                    onChange={(e) => handlePriceChange(e, "minPrice")}
+                    placeholder="Min Price"
+                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                  <input
+                    type="number"
+                    name="maxPrice"
+                    value={filters.maxPrice}
+                    onChange={(e) => handlePriceChange(e, "maxPrice")}
+                    placeholder="Max Price"
+                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="filter-section">
+                <label className="block text-sm font-semibold mb-3 text-gray-700">Preferred Tenant</label>
+                <div className="space-y-2">
+                  {tenants.map((tenant) => (
+                    <div key={tenant} className="flex items-center">
+                      <input
+                        type="radio"
+                        name="preferredTenant"
+                        value={tenant}
+                        checked={filters.preferredTenant === tenant}
+                        onChange={handleFilterChange}
+                        className="w-4 h-4 text-blue-600"
+                      />
+                      <label className="ml-3 text-sm text-gray-600 hover:text-gray-800">
+                        {tenant}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filter-section">
+                <label className="block text-sm font-semibold mb-3 text-gray-700">Furnished Type</label>
+                <div className="space-y-2">
+                  {furnishedTypes.map((type) => (
+                    <div key={type} className="flex items-center">
+                      <input
+                        type="radio"
+                        name="furnishedType"
+                        value={type}
+                        checked={filters.furnishedType === type}
+                        onChange={handleFilterChange}
+                        className="w-4 h-4 text-blue-600"
+                      />
+                      <label className="ml-3 text-sm text-gray-600 hover:text-gray-800">
+                        {type}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">Preferred Tenant</label>
-            {tenants.map((tenant) => (
-              <div key={tenant} className="flex items-center mb-2">
-                <input
-                  type="radio"
-                  name="preferredTenant"
-                  value={tenant}
-                  checked={filters.preferredTenant === tenant}
-                  onChange={handleFilterChange}
-                  className="mr-2"
-                />
-                <label className="text-sm">{tenant}</label>
-              </div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">Furnished Type</label>
-            {furnishedTypes.map((type) => (
-              <div key={type} className="flex items-center mb-2">
-                <input
-                  type="radio"
-                  name="furnishedType"
-                  value={type}
-                  checked={filters.furnishedType === type}
-                  onChange={handleFilterChange}
-                  className="mr-2"
-                />
-                <label className="text-sm">{type}</label>
-              </div>
-            ))}
           </div>
         </div>
 
         {/* Properties Listing */}
-        <div className="w-full md:w-3/4">
-          {paginatedProperties.length > 0 ? (
-            <div>
-              <Slider {...sliderSettings}>
-                {paginatedProperties.map((property) => (
-                  <div key={property._id} className="px-2">
-                    <div
-                      className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow"
-                      onClick={() =>
-                        navigate(`/property/${property._id}`, { state: property })
-                      }
-                    >
-                      <div className="relative h-48">
-                        <img
-                          src={property.image || "https://via.placeholder.com/400x300"}
-                          alt={property.title}
-                          className="w-full h-full object-cover"
-                        />
-                        <span className="absolute top-2 left-2 bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded">
-                          {property.type}
-                        </span>
-                      </div>
-                      <div className="p-4">
-                        <h3 className="text-lg font-semibold truncate text-gray-800">
-                          {property.title}
-                        </h3>
-                        <p className="text-orange-500 font-bold mt-1 text-lg">
-                          {property.price}
-                        </p>
-                        <p className="text-sm text-gray-600 mt-1 truncate">
-                          {property.city}
-                        </p>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {property.category}
-                        </p>
+        <div className="w-full lg:w-3/4">
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+          ) : paginatedProperties.length > 0 ? (
+            <div className="space-y-8">
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold mb-4">
+                  {filteredProperties.length} Properties Found
+                </h3>
+                <Slider {...sliderSettings}>
+                  {paginatedProperties.map((property) => (
+                    <div key={property._id} className="px-2">
+                      <div
+                        className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                        onClick={() => navigate(`/property/${property._id}`, { state: property })}
+                      >
+                        <div className="relative h-56">
+                          <img
+                            src={property.image || "https://via.placeholder.com/400x300"}
+                            alt={property.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <span className="absolute top-3 left-3 bg-blue-500 text-white text-sm font-semibold px-4 py-1 rounded-full">
+                            {property.type}
+                          </span>
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <h3 className="text-lg font-semibold text-white truncate">
+                              {property.title}
+                            </h3>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <div className="flex justify-between items-center mb-2">
+                            <p className="text-orange-500 font-bold text-xl">
+                              {property.price}
+                            </p>
+                            <span className="text-sm text-gray-500">
+                              {property.category}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 flex items-center gap-1">
+                            <Motion className="w-4 h-4" />
+                            {property.city}
+                          </p>
+                          <div className="mt-2 flex items-center gap-2">
+                            <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-full">
+                              {property.furnishedType}
+                            </span>
+                            <span className="text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">
+                              {property.preferredTenant}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </Slider>
+                  ))}
+                </Slider>
+              </div>
 
               {/* Pagination */}
-              <div className="flex justify-center items-center mt-6">
-                {[...Array(totalPages)].map((_, index) => (
-                  <button
-                    key={index}
-                    className={`px-3 py-1 mx-1 rounded border ${
-                    currentPage === index + 1
-                      ? "bg-blue-500 text-white"
-                      : "bg-white text-blue-500 border-blue-500"
-                  }`}
-                    onClick={() => handlePageChange(index + 1)}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-              </div>
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2">
+                  {[...Array(totalPages)].map((_, index) => (
+                    <button
+                      key={index}
+                      className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+                        currentPage === index + 1
+                          ? "bg-blue-500 text-white shadow-lg"
+                          : "bg-white text-blue-500 border border-blue-500 hover:bg-blue-50"
+                      }`}
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">No rooms match your filters.</p>
+            <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+              <Spring className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+              <p className="text-gray-600 text-xl">No properties match your filters.</p>
+              <p className="text-gray-400 mt-2">Try adjusting your search criteria</p>
             </div>
           )}
         </div>
@@ -281,4 +331,3 @@ const PropertyListing = () => {
 };
 
 export default PropertyListing;
-	
