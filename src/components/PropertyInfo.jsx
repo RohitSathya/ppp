@@ -138,20 +138,19 @@ const PropertyInfo = () => {
     }
   }, [property?._id]);
 
-useEffect(() => {
-    axios
-      .get(`${link}/api/property`)
-      .then((response) => {
-        const uniqueProperties = response.data.filter(
-          (prop, index, self) =>
-            prop._id !== property._id &&
-            index === self.findIndex((p) => p._id === prop._id)
-        );
-        setFeaturedProperties(uniqueProperties);
-      })
-      .catch((error) => console.error("Error fetching properties:", error));
+ useEffect(() => {
+    if (property?._id) {
+      axios
+        .get(`${link}/api/property`)
+        .then((response) => {
+          const uniqueProperties = response.data.filter(
+            (prop) => prop._id !== property._id
+          );
+          setFeaturedProperties(uniqueProperties);
+        })
+        .catch((error) => console.error("Error fetching properties:", error));
+    }
   }, [property?._id]);
-
 
   const handleAddComment = () => {
     if (commentText.trim() && user) {
