@@ -8,6 +8,7 @@ import { Label } from "../components/ui/label";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import link from "../link";
+import { Pencil } from "lucide-react";
 
 
 
@@ -15,6 +16,8 @@ const Owner = () => {
   const [properties, setProperties] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [ownerUsername, setOwnerUsername] = useState("");
+    const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [newUsername, setNewUsername] = useState("");
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -159,6 +162,34 @@ const Owner = () => {
       toast.error("Error updating profile");
     }
   };
+   const handleUsernameEditToggle = () => {
+    setIsEditingUsername(!isEditingUsername);
+    setNewUsername(ownerUsername);
+  };
+
+  const handleUsernameChange = async () => {
+    try {
+      if (newUsername.trim() === "") {
+        toast.error("Username cannot be empty.");
+        return;
+      }
+
+      const ownerId = localStorage.getItem("ownerId");
+      const response = await axios.put(`${link}/api/owner/${ownerId}/username`, { username: newUsername });
+
+      if (response.data.message === "Username already exists") {
+        toast.error("Username already exists. Please choose a different one.");
+      } else {
+        toast.success("Username updated successfully.");
+        setOwnerUsername(newUsername);
+        localStorage.setItem("ownerUsername", newUsername);
+        setIsEditingUsername(false);
+      }
+    } catch (error) {
+      toast.error("Error updating username.");
+    }
+  };
+
   
 
   useEffect(() => {
@@ -407,72 +438,134 @@ const handleInputChange = (e) => {
       <div className="flex">
         {/* Sidebar for Profile Settings */}
         <div className="bg-gray-800 text-white w-1/4 h-screen p-6">
-          <h2 className="text-2xl font-bold mb-6">Profile Settings</h2>
-          <form onSubmit={handleProfileSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label className="text-white">Profile Picture URL</Label>
+    <h2 className="text-2xl font-bold mb-6">Profile Settings</h2>
+    <form onSubmit={handleProfileSubmit} className="space-y-4">
+      {/* Username Section */}
+      <div className="space-y-2">
+        <Label className="text-white">Username</Label>
+        <div className="flex items-center space-x-2">
+          {isEditingUsername ? (
+            <>
               <Input
                 type="text"
-                name="profileImage"
-                value={profileData.profileImage}
-                onChange={handleProfileChange}
-                placeholder="Profile Image URL"
-                className="bg-gray-700 text-white"
+                name="username"
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                placeholder="Enter new username"
+                className="bg-gray-700 text-white flex-1"
               />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-white">Facebook</Label>
+              <button
+                onClick={handleUsernameChange}
+                type="button"
+                className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setIsEditingUsername(false)}
+                type="button"
+                className="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600"
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
               <Input
                 type="text"
-                name="facebook"
-                value={profileData.facebook}
-                onChange={handleProfileChange}
-                placeholder="Facebook URL"
-                className="bg-gray-700 text-white"
+                name="username"
+                value={ownerUsername}
+                readOnly
+                className="bg-gray-700 text-white flex-1 cursor-not-allowed"
               />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-white">Twitter</Label>
-              <Input
-                type="text"
-                name="twitter"
-                value={profileData.twitter}
-                onChange={handleProfileChange}
-                placeholder="Twitter URL"
-                className="bg-gray-700 text-white"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-white">Email</Label>
-              <Input
-                type="email"
-                name="email"
-                value={profileData.email}
-                onChange={handleProfileChange}
-                placeholder="Email Address"
-                className="bg-gray-700 text-white"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-white">Phone</Label>
-              <Input
-                type="text"
-                name="phone"
-                value={profileData.phone}
-                maxLength="10"
-                onChange={handleProfileChange}
-                placeholder="Phone Number"
-                className="bg-gray-700 text-white"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
-            >
-              Save Profile
-            </button>
-          </form>
+              <button
+                onClick={handleUsernameEditToggle}
+                type="button"
+                className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+              >
+                Edit
+              </button>
+            </>
+          )}
         </div>
+      </div>
+
+      {/* Profile Picture */}
+      <div className="space-y-2">
+        <Label className="text-white">Profile Picture URL</Label>
+        <Input
+          type="url"
+          name="profileImage"
+          value={profileData.profileImage}
+          onChange={handleProfileChange}
+          placeholder="Profile Image URL"
+          className="bg-gray-700 text-white"
+        />
+      </div>
+
+      {/* Facebook URL */}
+      <div className="space-y-2">
+        <Label className="text-white">Facebook</Label>
+        <Input
+          type="url"
+          name="facebook"
+          value={profileData.facebook}
+          onChange={handleProfileChange}
+          placeholder="Facebook URL"
+          className="bg-gray-700 text-white"
+        />
+      </div>
+
+      {/* Twitter URL */}
+      <div className="space-y-2">
+        <Label className="text-white">Twitter</Label>
+        <Input
+          type="url"
+          name="twitter"
+          value={profileData.twitter}
+          onChange={handleProfileChange}
+          placeholder="Twitter URL"
+          className="bg-gray-700 text-white"
+        />
+      </div>
+
+      {/* Email Address */}
+      <div className="space-y-2">
+        <Label className="text-white">Email</Label>
+        <Input
+          type="email"
+          name="email"
+          value={profileData.email}
+          onChange={handleProfileChange}
+          placeholder="Email Address"
+          className="bg-gray-700 text-white"
+        />
+      </div>
+
+      {/* Phone Number */}
+      <div className="space-y-2">
+        <Label className="text-white">Phone</Label>
+        <Input
+          type="tel"
+          name="phone"
+          value={profileData.phone}
+          maxLength="10"
+          pattern="[0-9]{10}"
+          onChange={handleProfileChange}
+          placeholder="10-digit Phone Number"
+          className="bg-gray-700 text-white"
+        />
+      </div>
+
+      {/* Save Profile Button */}
+      <button
+        type="submit"
+        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+      >
+        Save Profile
+      </button>
+    </form>
+  </div>
   
         {/* Main Content Area */}
         <div className="container mx-auto p-4 flex-1">
