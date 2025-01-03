@@ -46,7 +46,7 @@ const PropertyInfo = () => {
   useEffect(() => {
     if (user && property?._id) {
       axios
-        .get(${link}/api/favorites/${user.email})
+        .get(`${link}/api/favorites/${user.email}`)
         .then((response) => {
           const isFav = response.data.some((fav) => fav.propertyId === property._id);
           setIsFavorite(isFav);
@@ -58,7 +58,7 @@ const PropertyInfo = () => {
    const fetchOwnerDetails = async (ownerId) => {
     try {
       setIsLoadingOwner(true);
-      const response = await axios.get(${link}/api/owner/${ownerId});
+      const response = await axios.get(`${link}/api/owner/${ownerId}`);
       setOwnerDetails(response.data);
     } catch (error) {
       console.error("Error fetching owner details:", error);
@@ -80,7 +80,7 @@ const PropertyInfo = () => {
     setIsFavorite((prev) => !prev);
 
     try {
-      await axios.post(${link}/api/favorites/toggle, {
+      await axios.post(`${link}/api/favorites/toggle`, {
         userId: user.uid || user.email,
         propertyId: property._id,
       });
@@ -132,7 +132,7 @@ const PropertyInfo = () => {
   useEffect(() => {
     if (property?._id) {
       axios
-        .get(${link}/api/comments/${property._id})
+        .get(`${link}/api/comments/${property._id}`)
         .then((response) => setComments(response.data))
         .catch((error) => console.error("Error fetching comments:", error));
     }
@@ -163,7 +163,7 @@ useEffect(() => {
       };
 
       axios
-        .post(${link}/api/comments, newComment)
+        .post(`${link}/api/comments`, newComment)
         .then((response) => {
           setComments((prev) => [...prev, response.data]);
           setCommentText("");
@@ -176,7 +176,7 @@ useEffect(() => {
 
   const handleDeleteComment = (commentId) => {
     axios
-      .delete(${link}/api/comments/${commentId})
+      .delete(`${link}/api/comments/${commentId}`)
       .then(() => {
         setComments((prev) => prev.filter((comment) => comment._id !== commentId));
       })
